@@ -115,7 +115,7 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
   Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-rust --enable-python'}
 
 " ===============================Error checking
-"Plug 'w0rp/ale'
+Plug 'w0rp/ale'
 
 " ===================Undo Tree
 Plug 'mbbill/undotree/'
@@ -377,6 +377,14 @@ command! -nargs=0 Gvimspector :call s:generate_vimspector_conf()
 
 nmap <Leader>v <Plug>VimspectorBalloonEval
 xmap <Leader>v <Plug>vimspectorBalloonEval
+
+"=========================================
+"============== alet =====================
+"=========================================
+let g:ale_sign_column_always = 1 
+let g:ale_sign_error = '✗' 
+let g:ale_sign_warning = '⚡ '
+let g:ale_statusline_format = ['✗ %d', '⚡  %d','✔ OK']  
 
 
 
