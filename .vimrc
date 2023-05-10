@@ -64,6 +64,15 @@ set softtabstop=4
 ""inoremap " ""<Left>
 ""inoremap ' ''<Left>
 
+
+"=========================================
+"============== universial-ctags =========
+"=========================================
+set tags=./.tags;,.tags
+set autochdir
+
+
+
 "       _               _                _       
 " _ __ | |_   _  __ _  | |__   ___  __ _(_)_ __  
 "| '_ \| | | | |/ _` | | '_ \ / _ \/ _` | | '_ \ 
@@ -78,19 +87,29 @@ Plug 'vim-airline/vim-airline-themes'
 " ======================= vim colorschemes
 Plug 'flazz/vim-colorschemes'
 
+" ===============================Auto Complete
+" Plug 'Valloric/YouCompleteMe'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'davidhalter/jedi-vim'
+
 " ===============================File navigation
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
   " file finder
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 
-" ============================Taglist
-"Plug 'majutsushi/tagbar', { 'on': 'TagbarOpenAutoClose' }
 
-" ===============================Auto Complete
-" Plug 'Valloric/YouCompleteMe'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'davidhalter/jedi-vim'
+" =============================== catgs 相关  
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'vim-scripts/taglist.vim' "Tlist标签列表插件
+
+
+" ================================vim-cpp-enhanced-hightlight-master
+Plug 'octol/vim-cpp-enhanced-highlight'
+
+" =========================vim-visual-muti 多光标
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+
 
 " =============================== debug
   Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-rust --enable-python'}
@@ -393,6 +412,48 @@ nmap <leader>b :Leaderf! buffer<CR>
 nmap <leader>F :Leaderf rg<CR>
 let g:Lf_DevIconsFont = "DroidSansMono Nerd Font Mono"
 
+
+" ========================================
+" =========== vim-gutentags ==============
+" ========================================
+" gutentags 搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
+
+" 所生成的数据文件的名称
+let g:gutentags_ctags_tagfile = '.tags'
+
+" 将自动生成的 tags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录
+let s:vim_tags = expand('~/.cache/tags')
+let g:gutentags_cache_dir = s:vim_tags
+
+" 配置 ctags 的参数
+let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
+let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+
+" 检测 ~/.cache/tags 不存在就新建
+if !isdirectory(s:vim_tags)
+   silent! call mkdir(s:vim_tags, 'p')
+endif
+
+
+" ========================================
+" ===========  taglist ===================
+" ========================================
+"Tlist插件配置
+let Tlist_Show_One_File           = 1 " 只显示当前文件的tags
+"let Tlist_Auto_Open			  = 1 " 打开vim自动打开Tlist
+"let Tlist_GainFocus_On_ToggleOpen = 1 " 打开Tlist窗口时,光标跳到list窗口
+let Tlist_Exit_OnlyWindow         = 1 " 如果Tlist窗口是最后一个窗口则退出Vim
+let Tlist_Use_Left_Window         = 1 " 在左侧窗口中显示
+let Tlist_File_Fold_Auto_Close    = 1 " 自动折叠
+let Tlist_Auto_Update             = 1 " 自动更新
+" <F4> 打开 Tlist 窗口，在左侧栏显示
+map <F4> :TlistToggle<CR>
+
+
+
+
 " ========================================
 " =========== vim-table-mode =============
 " ========================================
@@ -404,4 +465,5 @@ map <LEADER>tm :TableModeToggle<CR>
 " =========== Goyo =======================
 " ========================================
 map <LEADER>gy :Goyo<CR>
+
 
