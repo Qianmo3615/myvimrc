@@ -92,6 +92,11 @@ Plug 'flazz/vim-colorschemes'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'davidhalter/jedi-vim'
 
+
+" ============================vim-snippets
+Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
+
 " ===============================File navigation
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -122,6 +127,9 @@ Plug 'mbbill/undotree/'
 
 " ==================auto-pairs
 Plug 'jiangmiao/auto-pairs'
+
+" ========================== vim-man
+Plug 'vim-utils/vim-man'
 
 
 " ===========================Other visual enhancement
@@ -160,7 +168,6 @@ Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
 Plug 'kshenoy/vim-signature'
 
 "========== Other useful utilities=============
-"Plug 'jiangmiao/auto-pairs'
 "Plug 'terryma/vim-multiple-cursors'
 Plug 'junegunn/goyo.vim' " distraction free writing mode
 ""Plug 'ntpeters/vim-better-whitespace', { 'on': ['EnableWhitespace', 'ToggleWhitespace'] } "displays trailing whitespace (after :EnableWhitespace, vim slows down)
@@ -189,6 +196,16 @@ colorscheme wombat256
 "=========================================
 "============== coc.nvim =================
 "=========================================
+let g:coc_global_extensions=[
+	\ 'coc-vimlsp',
+	\ 'coc-clangd',
+	\ 'coc-cmake',
+	\ 'coc-json',
+	\ 'coc-marketplace',
+	\ 'coc-snippets'
+	\]
+
+
 " May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
 " utf-8 byte sequence
 set encoding=utf-8
@@ -233,11 +250,7 @@ function! CheckBackspace() abort
 endfunction
 
 " Use <c-space> to trigger completion
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
+inoremap <silent><expr> <c-o> coc#refresh()
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
@@ -357,6 +370,21 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
+" coc-snippets config
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+
+
+
 "=========================================
 "============== debug ====================
 "=========================================
@@ -474,4 +502,10 @@ map <LEADER>tm :TableModeToggle<CR>
 " ========================================
 map <LEADER>gy :Goyo<CR>
 
+
+" ========================================
+" =========== vim-man ====================
+" ========================================
+ nmap m :Man <C-R>=expand("<cword>")<CR><CR>
+ nmap vm :Vman <C-R>=expand("<cword>")<CR><CR>
 
